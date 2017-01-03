@@ -534,3 +534,4 @@ class HelloWorldServiceClient: Client {
         return try GreetsResponse(deserialize: outputNode)
     }
 }
+

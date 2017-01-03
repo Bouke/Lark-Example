@@ -42,19 +42,8 @@ print(result6.greetsResult.string)
 
 // This call will fault.
 do { 
-    let result = try hwsClient.fault(Demo.Fault())
+    let result = try hwsClient.fault(LarkExample.Fault())
     print(result)
-} catch let fault as LarkRuntime.Fault {
-    print("Server generated a Fault: \(fault)")
-}
-
-
-// Shakespeare
-// This external service will return a Shakespeare speech containing the given quote.
-let shakespeareClient = ShakespeareClient()
-do { 
-    let result = try shakespeareClient.getSpeech(GetSpeech(request: "to be, or not to be"))
-    print(result.getSpeechResult ?? "__nil__")
 } catch let fault as LarkRuntime.Fault {
     print("Server generated a Fault: \(fault)")
 }
