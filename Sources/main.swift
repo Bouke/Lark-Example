@@ -47,3 +47,8 @@ do {
 } catch let fault as LarkRuntime.Fault {
     print("Server generated a Fault: \(fault)")
 }
+
+// Set HTTP headers
+let transport = hwsClient.channel.transport as! HTTPTransport
+transport.headers["Authorization"] = "Basic QWxhZGRpbjpPcGVuU2VzYW1l"
+_ = try hwsClient.secret(Secret())

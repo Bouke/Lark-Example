@@ -1,8 +1,11 @@
+#!/usr/bin/env python
+
 import logging
+
 logging.basicConfig(level=logging.DEBUG)
 
 from spyne import Application, rpc, ServiceBase, \
-    Integer, Unicode, Enum, Fault
+    Integer, Unicode, Enum, Fault, InvalidCredentialsError
 
 from spyne import Iterable
 
@@ -43,6 +46,10 @@ class HelloWorldService(ServiceBase):
     def fault(self):
         raise Fault(faultstring="a fault, as promised")
 
+    @rpc()
+    def secret(self):
+        if self.transport.req['HTTP_AUTHORIZATION'] != 'Basic QWxhZGRpbjpPcGVuU2VzYW1l':
+            raise InvalidCredentialsError()
 
 application = Application([HelloWorldService],
     name='HelloWorld',
