@@ -6,17 +6,176 @@ import LarkRuntime
 //
 // MARK: - SOAP Structures
 //
-class Fault: FaultType {
-    override init() {
-        super.init()
+typealias Secret = SecretType
+
+class FaultType: XMLDeserializable {
+    init() {
     }
     required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
     }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
+    func serialize(_ element: XMLElement) throws {
     }
 }
+
+typealias Fault = FaultType
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class PartOfDayArrayType: XMLDeserializable {
+    let partOfDay: [PartOfDay]
+    init(partOfDay: [PartOfDay]) {
+        self.partOfDay = partOfDay
+    }
+    required init(deserialize element: XMLElement) throws {
+        self.partOfDay = try element.elements(forLocalName: "PartOfDay", uri: "spyne.examples.hello").map(PartOfDay.init(deserialize:))
+    }
+    func serialize(_ element: XMLElement) throws {
+        for item in partOfDay {
+            let itemNode = try element.createElement(localName: "PartOfDay", uri: "spyne.examples.hello")
+            element.addChild(itemNode)
+            try item.serialize(itemNode)
+        }
+    }
+}
+
+
+
+typealias PartOfDayArray = PartOfDayArrayType
+
+class GreetResponseType: XMLDeserializable {
+    let greetResult: String?
+    init(greetResult: String?) {
+        self.greetResult = greetResult
+    }
+    required init(deserialize element: XMLElement) throws {
+        self.greetResult = try element.elements(forLocalName: "greetResult", uri: "spyne.examples.hello").first.map(String.init(deserialize:))
+    }
+    func serialize(_ element: XMLElement) throws {
+        if let greetResult = greetResult {
+            let greetResultNode = try element.createElement(localName: "greetResult", uri: "spyne.examples.hello")
+            element.addChild(greetResultNode)
+            try greetResult.serialize(greetResultNode)
+        }
+    }
+}
+
+typealias GreetResponse = GreetResponseType
+
+class SayMaybeNothingType: XMLDeserializable {
+    let name: String?
+    init(name: String?) {
+        self.name = name
+    }
+    required init(deserialize element: XMLElement) throws {
+        self.name = try element.elements(forLocalName: "name", uri: "spyne.examples.hello").first.map(String.init(deserialize:))
+    }
+    func serialize(_ element: XMLElement) throws {
+        if let name = name {
+            let nameNode = try element.createElement(localName: "name", uri: "spyne.examples.hello")
+            element.addChild(nameNode)
+            try name.serialize(nameNode)
+        }
+    }
+}
+
+typealias SayMaybeNothing = SayMaybeNothingType
+
+class SayMaybeNothingResponseType: XMLDeserializable {
+    let sayMaybeNothingResult: String?
+    init(sayMaybeNothingResult: String?) {
+        self.sayMaybeNothingResult = sayMaybeNothingResult
+    }
+    required init(deserialize element: XMLElement) throws {
+        self.sayMaybeNothingResult = try element.elements(forLocalName: "say_maybe_nothingResult", uri: "spyne.examples.hello").first.map(String.init(deserialize:))
+    }
+    func serialize(_ element: XMLElement) throws {
+        if let sayMaybeNothingResult = sayMaybeNothingResult {
+            let sayMaybeNothingResultNode = try element.createElement(localName: "say_maybe_nothingResult", uri: "spyne.examples.hello")
+            element.addChild(sayMaybeNothingResultNode)
+            try sayMaybeNothingResult.serialize(sayMaybeNothingResultNode)
+        }
+    }
+}
+
+typealias SayMaybeNothingResponse = SayMaybeNothingResponseType
+
+class SecretResponseType: XMLDeserializable {
+    init() {
+    }
+    required init(deserialize element: XMLElement) throws {
+    }
+    func serialize(_ element: XMLElement) throws {
+    }
+}
+
+typealias SecretResponse = SecretResponseType
+
+class SayNothingResponseType: XMLDeserializable {
+    init() {
+    }
+    required init(deserialize element: XMLElement) throws {
+    }
+    func serialize(_ element: XMLElement) throws {
+    }
+}
+
+typealias SayNothingResponse = SayNothingResponseType
+
+class SayHelloResponseType: XMLDeserializable {
+    let sayHelloResult: StringArrayType
+    init(sayHelloResult: StringArrayType) {
+        self.sayHelloResult = sayHelloResult
+    }
+    required init(deserialize element: XMLElement) throws {
+        self.sayHelloResult = try StringArrayType(deserialize: element.elements(forLocalName: "say_helloResult", uri: "spyne.examples.hello").first!)
+    }
+    func serialize(_ element: XMLElement) throws {
+        let sayHelloResultNode = try element.createElement(localName: "say_helloResult", uri: "spyne.examples.hello")
+        element.addChild(sayHelloResultNode)
+        try sayHelloResult.serialize(sayHelloResultNode)
+    }
+}
+
+typealias SayHelloResponse = SayHelloResponseType
+
+class GreetType: XMLDeserializable {
+    let partOfDay: PartOfDay?
+    init(partOfDay: PartOfDay?) {
+        self.partOfDay = partOfDay
+    }
+    required init(deserialize element: XMLElement) throws {
+        self.partOfDay = try element.elements(forLocalName: "part_of_day", uri: "spyne.examples.hello").first.map(PartOfDay.init(deserialize:))
+    }
+    func serialize(_ element: XMLElement) throws {
+        if let partOfDay = partOfDay {
+            let partOfDayNode = try element.createElement(localName: "part_of_day", uri: "spyne.examples.hello")
+            element.addChild(partOfDayNode)
+            try partOfDay.serialize(partOfDayNode)
+        }
+    }
+}
+
+typealias Greet = GreetType
+
+
+
+
 
 class SayNothingType: XMLDeserializable {
     init() {
@@ -27,17 +186,7 @@ class SayNothingType: XMLDeserializable {
     }
 }
 
-class SayNothing: SayNothingType {
-    override init() {
-        super.init()
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
+typealias SayNothing = SayNothingType
 
 enum PartOfDay: String, XMLSerializable, XMLDeserializable {
     case afternoon = "afternoon"
@@ -69,17 +218,7 @@ class StringArrayType: XMLDeserializable {
     }
 }
 
-class StringArray: StringArrayType {
-    override init(string: [String]) {
-        super.init(string: string)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
+typealias StringArray = StringArrayType
 
 class SayMaybeSomethingResponseType: XMLDeserializable {
     let sayMaybeSomethingResult: String?
@@ -98,6 +237,8 @@ class SayMaybeSomethingResponseType: XMLDeserializable {
     }
 }
 
+typealias SayMaybeSomethingResponse = SayMaybeSomethingResponseType
+
 class SayMaybeSomethingType: XMLDeserializable {
     let name: String?
     init(name: String?) {
@@ -115,17 +256,9 @@ class SayMaybeSomethingType: XMLDeserializable {
     }
 }
 
-class SayMaybeSomething: SayMaybeSomethingType {
-    override init(name: String?) {
-        super.init(name: name)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
+typealias SayMaybeSomething = SayMaybeSomethingType
+
+
 
 class GreetsResponseType: XMLDeserializable {
     let greetsResult: StringArrayType
@@ -142,222 +275,11 @@ class GreetsResponseType: XMLDeserializable {
     }
 }
 
-class GreetsResponse: GreetsResponseType {
-    override init(greetsResult: StringArrayType) {
-        super.init(greetsResult: greetsResult)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
+typealias GreetsResponse = GreetsResponseType
 
-class SayMaybeSomethingResponse: SayMaybeSomethingResponseType {
-    override init(sayMaybeSomethingResult: String?) {
-        super.init(sayMaybeSomethingResult: sayMaybeSomethingResult)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
 
-class PartOfDayArrayType: XMLDeserializable {
-    let partOfDay: [PartOfDay]
-    init(partOfDay: [PartOfDay]) {
-        self.partOfDay = partOfDay
-    }
-    required init(deserialize element: XMLElement) throws {
-        self.partOfDay = try element.elements(forLocalName: "PartOfDay", uri: "spyne.examples.hello").map(PartOfDay.init(deserialize:))
-    }
-    func serialize(_ element: XMLElement) throws {
-        for item in partOfDay {
-            let itemNode = try element.createElement(localName: "PartOfDay", uri: "spyne.examples.hello")
-            element.addChild(itemNode)
-            try item.serialize(itemNode)
-        }
-    }
-}
 
-class PartOfDayArray: PartOfDayArrayType {
-    override init(partOfDay: [PartOfDay]) {
-        super.init(partOfDay: partOfDay)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
 
-class GreetResponse: GreetResponseType {
-    override init(greetResult: String?) {
-        super.init(greetResult: greetResult)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
-
-class SayMaybeNothingType: XMLDeserializable {
-    let name: String?
-    init(name: String?) {
-        self.name = name
-    }
-    required init(deserialize element: XMLElement) throws {
-        self.name = try element.elements(forLocalName: "name", uri: "spyne.examples.hello").first.map(String.init(deserialize:))
-    }
-    func serialize(_ element: XMLElement) throws {
-        if let name = name {
-            let nameNode = try element.createElement(localName: "name", uri: "spyne.examples.hello")
-            element.addChild(nameNode)
-            try name.serialize(nameNode)
-        }
-    }
-}
-
-class SayMaybeNothingResponseType: XMLDeserializable {
-    let sayMaybeNothingResult: String?
-    init(sayMaybeNothingResult: String?) {
-        self.sayMaybeNothingResult = sayMaybeNothingResult
-    }
-    required init(deserialize element: XMLElement) throws {
-        self.sayMaybeNothingResult = try element.elements(forLocalName: "say_maybe_nothingResult", uri: "spyne.examples.hello").first.map(String.init(deserialize:))
-    }
-    func serialize(_ element: XMLElement) throws {
-        if let sayMaybeNothingResult = sayMaybeNothingResult {
-            let sayMaybeNothingResultNode = try element.createElement(localName: "say_maybe_nothingResult", uri: "spyne.examples.hello")
-            element.addChild(sayMaybeNothingResultNode)
-            try sayMaybeNothingResult.serialize(sayMaybeNothingResultNode)
-        }
-    }
-}
-
-class SayMaybeNothingResponse: SayMaybeNothingResponseType {
-    override init(sayMaybeNothingResult: String?) {
-        super.init(sayMaybeNothingResult: sayMaybeNothingResult)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
-
-class SayNothingResponseType: XMLDeserializable {
-    init() {
-    }
-    required init(deserialize element: XMLElement) throws {
-    }
-    func serialize(_ element: XMLElement) throws {
-    }
-}
-
-class SayNothingResponse: SayNothingResponseType {
-    override init() {
-        super.init()
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
-
-class SayMaybeNothing: SayMaybeNothingType {
-    override init(name: String?) {
-        super.init(name: name)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
-
-class GreetResponseType: XMLDeserializable {
-    let greetResult: String?
-    init(greetResult: String?) {
-        self.greetResult = greetResult
-    }
-    required init(deserialize element: XMLElement) throws {
-        self.greetResult = try element.elements(forLocalName: "greetResult", uri: "spyne.examples.hello").first.map(String.init(deserialize:))
-    }
-    func serialize(_ element: XMLElement) throws {
-        if let greetResult = greetResult {
-            let greetResultNode = try element.createElement(localName: "greetResult", uri: "spyne.examples.hello")
-            element.addChild(greetResultNode)
-            try greetResult.serialize(greetResultNode)
-        }
-    }
-}
-
-class SayHelloResponseType: XMLDeserializable {
-    let sayHelloResult: StringArrayType
-    init(sayHelloResult: StringArrayType) {
-        self.sayHelloResult = sayHelloResult
-    }
-    required init(deserialize element: XMLElement) throws {
-        self.sayHelloResult = try StringArrayType(deserialize: element.elements(forLocalName: "say_helloResult", uri: "spyne.examples.hello").first!)
-    }
-    func serialize(_ element: XMLElement) throws {
-        let sayHelloResultNode = try element.createElement(localName: "say_helloResult", uri: "spyne.examples.hello")
-        element.addChild(sayHelloResultNode)
-        try sayHelloResult.serialize(sayHelloResultNode)
-    }
-}
-
-class SayHelloResponse: SayHelloResponseType {
-    override init(sayHelloResult: StringArrayType) {
-        super.init(sayHelloResult: sayHelloResult)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
-
-class GreetType: XMLDeserializable {
-    let partOfDay: PartOfDay?
-    init(partOfDay: PartOfDay?) {
-        self.partOfDay = partOfDay
-    }
-    required init(deserialize element: XMLElement) throws {
-        self.partOfDay = try element.elements(forLocalName: "part_of_day", uri: "spyne.examples.hello").first.map(PartOfDay.init(deserialize:))
-    }
-    func serialize(_ element: XMLElement) throws {
-        if let partOfDay = partOfDay {
-            let partOfDayNode = try element.createElement(localName: "part_of_day", uri: "spyne.examples.hello")
-            element.addChild(partOfDayNode)
-            try partOfDay.serialize(partOfDayNode)
-        }
-    }
-}
-
-class Greet: GreetType {
-    override init(partOfDay: PartOfDay?) {
-        super.init(partOfDay: partOfDay)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
 
 class SayHelloType: XMLDeserializable {
     let name: String?
@@ -384,17 +306,17 @@ class SayHelloType: XMLDeserializable {
     }
 }
 
-class SayHello: SayHelloType {
-    override init(name: String?, times: Int?) {
-        super.init(name: name, times: times)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
+typealias SayHello = SayHelloType
+
+
+
+
+
+
+
+
+
+
 
 class GreetsType: XMLDeserializable {
     let partOfDays: PartOfDayArrayType
@@ -411,17 +333,7 @@ class GreetsType: XMLDeserializable {
     }
 }
 
-class Greets: GreetsType {
-    override init(partOfDays: PartOfDayArrayType) {
-        super.init(partOfDays: partOfDays)
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
+typealias Greets = GreetsType
 
 class FaultResponseType: XMLDeserializable {
     init() {
@@ -432,19 +344,9 @@ class FaultResponseType: XMLDeserializable {
     }
 }
 
-class FaultResponse: FaultResponseType {
-    override init() {
-        super.init()
-    }
-    required init(deserialize element: XMLElement) throws {
-        try super.init(deserialize: element)
-    }
-    override func serialize(_ element: XMLElement) throws {
-        try super.serialize(element)
-    }
-}
+typealias FaultResponse = FaultResponseType
 
-class FaultType: XMLDeserializable {
+class SecretType: XMLDeserializable {
     init() {
     }
     required init(deserialize element: XMLElement) throws {
@@ -493,6 +395,16 @@ class HelloWorldServiceClient: Client {
         let outputNode = body.elements(forLocalName: "faultResponse", uri: "spyne.examples.hello").first!
         return try FaultResponse(deserialize: outputNode)
     }
+    func sayMaybeSomething(_ parameter: SayMaybeSomething) throws -> SayMaybeSomethingResponse {
+        var parameters = [XMLElement]()
+        let parameterNode = XMLElement(prefix: "ns0", localName: "say_maybe_something", uri: "spyne.examples.hello")
+        parameterNode.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
+        try parameter.serialize(parameterNode)
+        parameters.append(parameterNode)
+        let body = try send(action: URL(string: "say_maybe_something")!, parameters: parameters)
+        let outputNode = body.elements(forLocalName: "say_maybe_somethingResponse", uri: "spyne.examples.hello").first!
+        return try SayMaybeSomethingResponse(deserialize: outputNode)
+    }
     func greet(_ parameter: Greet) throws -> GreetResponse {
         var parameters = [XMLElement]()
         let parameterNode = XMLElement(prefix: "ns0", localName: "greet", uri: "spyne.examples.hello")
@@ -513,15 +425,15 @@ class HelloWorldServiceClient: Client {
         let outputNode = body.elements(forLocalName: "say_nothingResponse", uri: "spyne.examples.hello").first!
         return try SayNothingResponse(deserialize: outputNode)
     }
-    func sayMaybeSomething(_ parameter: SayMaybeSomething) throws -> SayMaybeSomethingResponse {
+    func secret(_ parameter: Secret) throws -> SecretResponse {
         var parameters = [XMLElement]()
-        let parameterNode = XMLElement(prefix: "ns0", localName: "say_maybe_something", uri: "spyne.examples.hello")
+        let parameterNode = XMLElement(prefix: "ns0", localName: "secret", uri: "spyne.examples.hello")
         parameterNode.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
         try parameter.serialize(parameterNode)
         parameters.append(parameterNode)
-        let body = try send(action: URL(string: "say_maybe_something")!, parameters: parameters)
-        let outputNode = body.elements(forLocalName: "say_maybe_somethingResponse", uri: "spyne.examples.hello").first!
-        return try SayMaybeSomethingResponse(deserialize: outputNode)
+        let body = try send(action: URL(string: "secret")!, parameters: parameters)
+        let outputNode = body.elements(forLocalName: "secretResponse", uri: "spyne.examples.hello").first!
+        return try SecretResponse(deserialize: outputNode)
     }
     func greets(_ parameter: Greets) throws -> GreetsResponse {
         var parameters = [XMLElement]()
@@ -534,4 +446,3 @@ class HelloWorldServiceClient: Client {
         return try GreetsResponse(deserialize: outputNode)
     }
 }
-
