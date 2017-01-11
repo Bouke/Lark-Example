@@ -17,39 +17,48 @@ part_of_day = Enum("morning", "afternoon", "evening", "night", type_name="PartOf
 
 class HelloWorldService(ServiceBase):
     @rpc(Unicode, Integer, _returns=Iterable(Unicode, min_occurs=1))
-    def say_hello(self, name, times):
+    def say_hello(ctx, name, times):
         for i in range(times):
             yield 'Hello, %s' % name
 
     @rpc()
-    def say_nothing(self):
+    def say_nothing(ctx):
         return
 
     @rpc(part_of_day, _returns=Unicode)
-    def greet(self, part_of_day):
+    def greet(ctx, part_of_day):
         return 'Good %s' % part_of_day
 
     @rpc(Iterable(part_of_day, min_occurs=1), _returns=Iterable(Unicode, min_occurs=1))
-    def greets(self, part_of_days):
+    def greets(ctx, part_of_days):
         for part_of_day in part_of_days:
             yield 'Good %s' % part_of_day
 
     @rpc(Unicode, _returns=Unicode(min_occurs=0))
-    def say_maybe_nothing(self, name):
+    def say_maybe_nothing(ctx, name):
         return
 
     @rpc(Unicode, _returns=Unicode(min_occurs=0))
-    def say_maybe_something(self, name):
+    def say_maybe_something(ctx, name):
         return 'Hello, %s' % name
 
     @rpc()
-    def fault(self):
+    def fault(ctx):
         raise Fault(faultstring="a fault, as promised")
 
     @rpc()
-    def secret(self):
-        if self.transport.req['HTTP_AUTHORIZATION'] != 'Basic QWxhZGRpbjpPcGVuU2VzYW1l':
-            raise InvalidCredentialsError()
+    def secret(ctx):
+        secret = 'QWxhZGRpbjpPcGVuU2VzYW1l'
+
+        soap_token = next((h for h in (ctx.in_header_doc or []) if h.tag == '{http://tempuri.org/}Token'), None)
+        if soap_token is not None and soap_token.text == secret:
+            return
+
+        http_token = ctx.transport.req.get('HTTP_AUTHORIZATION', None)
+        if http_token == 'Basic ' + secret:
+            return
+
+        raise InvalidCredentialsError()
 
 application = Application([HelloWorldService],
     name='HelloWorld',

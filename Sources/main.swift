@@ -52,3 +52,8 @@ do {
 let transport = hwsClient.channel.transport as! HTTPTransport
 transport.headers["Authorization"] = "Basic QWxhZGRpbjpPcGVuU2VzYW1l"
 _ = try hwsClient.secret(Secret())
+
+// Set SOAP headers
+transport.headers = [:]
+hwsClient.headers.append((QualifiedName(uri: "http://tempuri.org/", localName: "Token"), "QWxhZGRpbjpPcGVuU2VzYW1l"))
+_ = try hwsClient.secret(Secret())
