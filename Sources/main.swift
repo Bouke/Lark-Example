@@ -13,47 +13,72 @@ getLogger("Lark").logLevel = .warning
 let hwsClient = HelloWorldServiceClient()
 
 // This call returns an array of strings.
-let result0 = try hwsClient.sayHello(SayHello(name: "World", times: 2))
-print(result0.sayHelloResult.string)
+try hwsClient.sayHello(SayHello(name: "World", times: 2)) {
+    print($0.value?.sayHelloResult.string ?? "__error__")
+}
 
 // This call shows optional parameters; `name` is defined as `String?`.
-let result1 = try hwsClient.sayHello(SayHello(name: nil, times: 1))
-print(result1.sayHelloResult.string)
+try hwsClient.sayHello(SayHello(name: nil, times: 1)) {
+    print($0.value?.sayHelloResult.string ?? "__error__")
+}
 
 // This call returns nothing.
-let result2 = try hwsClient.sayNothing(SayNothing())
-print(result2)
+try hwsClient.sayNothing(SayNothing()) {
+    print($0)
+}
 
 // This call has an optional result and will return something.
-let result3 = try hwsClient.sayMaybeSomething(SayMaybeSomething(name: "Bouke"))
-print(result3.sayMaybeSomethingResult ?? "__nil__")
+try hwsClient.sayMaybeSomething(SayMaybeSomething(name: "Bouke")) {
+    print($0.map { $0.sayMaybeSomethingResult } )
+}
 
 // This call has an optional result and will return nothing.
-let result4 = try hwsClient.sayMaybeNothing(SayMaybeNothing(name: "Bouke"))
-print(result4.sayMaybeNothingResult ?? "__nil__")
+try hwsClient.sayMaybeNothing(SayMaybeNothing(name: "Bouke")) {
+    print($0.map { $0.sayMaybeNothingResult } )
+}
 
 // This call takes an enum value.
-let result5 = try hwsClient.greet(Greet(partOfDay: .evening))
-print(result5)
+try hwsClient.greet(Greet(partOfDay: .evening)) {
+    print($0)
+}
 
 // This call takes an array of enums.
-let result6 = try hwsClient.greets(Greets(partOfDays: PartOfDayArrayType(partOfDay: [.morning, .night])))
-print(result6.greetsResult.string)
+try hwsClient.greets(Greets(partOfDays: PartOfDayArrayType(partOfDay: [.morning, .night]))) {
+    print($0.value?.greetsResult.string ?? "__error__")
+}
 
 // This call will fault.
-do { 
-    let result = try hwsClient.fault(LarkExample.Fault())
-    print(result)
-} catch let fault as LarkRuntime.Fault {
-    print("Server generated a Fault: \(fault)")
+try hwsClient.fault(Lark_Example.Fault()) {
+    do {
+        _ = try $0.resolve()
+    } catch let fault as LarkRuntime.Fault {
+        // handle server faults here
+        print("Server generated a Fault: \(fault)")
+    } catch {
+        // handle other errors (e.g connection) here
+    }
 }
 
 // Set HTTP headers
 let transport = hwsClient.channel.transport as! HTTPTransport
-transport.headers["Authorization"] = "Basic QWxhZGRpbjpPcGVuU2VzYW1l"
-_ = try hwsClient.secret(Secret())
+transport.headers = ["Authorization": "Basic QWxhZGRpbjpPcGVuU2VzYW1l"]
+try hwsClient.secret(Secret()) {
+    do {
+        _ = try $0.resolve()
+        print("Successfully authorized for secret page")
+    } catch {
+        print("Error was caught: \(error)")
+    }
+}
 
 // Set SOAP headers
 transport.headers = [:]
 hwsClient.headers.append((QualifiedName(uri: "http://tempuri.org/", localName: "Token"), "QWxhZGRpbjpPcGVuU2VzYW1l"))
-_ = try hwsClient.secret(Secret())
+try hwsClient.secret(Secret()) {
+    do {
+        _ = try $0.resolve()
+        print("Successfully authorized for secret page")
+    } catch {
+        print("Error was caught: \(error)")
+    }
+}
