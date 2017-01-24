@@ -1,84 +1,104 @@
-import Evergreen
+import Alamofire
 import Foundation
-import LarkRuntime
+import Lark
 
-getLogger("Lark").logLevel = .warning
-
-
-// HelloWorld
-// Before you can run this example, you need to start the included Python server;
-//
-//     pip install spyne
-//     python Sources/Demo/server.py
-let hwsClient = HelloWorldServiceClient()
+let client = HelloWorldServiceClient()
 
 // This call returns an array of strings.
-try hwsClient.sayHello(SayHello(name: "World", times: 2)) {
-    print($0.value?.sayHelloResult.string ?? "__error__")
+do {
+    let result = try client.sayHello(SayHello(name: "World", times: 2))
+    print(String(describing: result.sayHelloResult?.string))
+} catch {
+    print("Error: \(error)")
 }
 
-// This call shows optional parameters; `name` is defined as `String?`.
-try hwsClient.sayHello(SayHello(name: nil, times: 1)) {
-    print($0.value?.sayHelloResult.string ?? "__error__")
+// This call shows optional parameters; `name` is defined as `String?`
+do {
+    let result = try client.sayHello(SayHello(name: nil, times: 1))
+    print(String(describing: result.sayHelloResult?.string))
+} catch {
+    print("Error: \(error)")
 }
 
 // This call returns nothing.
-try hwsClient.sayNothing(SayNothing()) {
-    print($0)
+do {
+    let result = try client.sayNothing(SayNothing())
+    print(result)
+} catch {
+    print("Error: \(error)")
 }
 
 // This call has an optional result and will return something.
-try hwsClient.sayMaybeSomething(SayMaybeSomething(name: "Bouke")) {
-    print($0.map { $0.sayMaybeSomethingResult } )
+do {
+    let result = try client.sayMaybeSomething(SayMaybeSomething(name: "Bouke"))
+    print(String(describing: result.sayMaybeSomethingResult))
+} catch {
+    print("Error: \(error)")
 }
 
 // This call has an optional result and will return nothing.
-try hwsClient.sayMaybeNothing(SayMaybeNothing(name: "Bouke")) {
-    print($0.map { $0.sayMaybeNothingResult } )
+do {
+    let result = try client.sayMaybeNothing(SayMaybeNothing(name: "Bouke"))
+    print(String(describing: result.sayMaybeNothingResult))
+} catch {
+    print("Error: \(error)")
 }
 
 // This call takes an enum value.
-try hwsClient.greet(Greet(partOfDay: .evening)) {
-    print($0)
+do {
+    let result = try client.greet(Greet(partOfDay: .evening))
+    print(String(describing: result.greetResult))
+} catch {
+    print("Error: \(error)")
 }
 
 // This call takes an array of enums.
-try hwsClient.greets(Greets(partOfDays: PartOfDayArrayType(partOfDay: [.morning, .night]))) {
-    print($0.value?.greetsResult.string ?? "__error__")
+do {
+    let result = try client.greets(Greets(partOfDays: PartOfDayArrayType(partOfDay: [.morning, .night])))
+    print(String(describing: result.greetsResult))
+} catch {
+    print("Error: \(error)")
 }
 
 // This call will fault.
-try hwsClient.fault(Lark_Example.Fault()) {
-    do {
-        _ = try $0.resolve()
-    } catch let fault as LarkRuntime.Fault {
-        // handle server faults here
-        print("Server generated a Fault: \(fault)")
-    } catch {
-        // handle other errors (e.g connection) here
-    }
+do {
+    _ = try client.fault(Lark_Example.Fault())
+} catch let fault as Lark.Fault {
+    print("Service generated a Fault: \(fault)")
+} catch {
+    print("Error: \(error)")
 }
 
 // Set HTTP headers
-let transport = hwsClient.channel.transport as! HTTPTransport
-transport.headers = ["Authorization": "Basic QWxhZGRpbjpPcGVuU2VzYW1l"]
-try hwsClient.secret(Secret()) {
-    do {
-        _ = try $0.resolve()
-        print("Successfully authorized for secret page")
-    } catch {
-        print("Error was caught: \(error)")
+
+struct UsernamePasswordAdapter: RequestAdapter {
+    private let encoded: String
+
+    init(encoded: String) {
+        self.encoded = encoded
+    }
+
+    func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+        var urlRequest = urlRequest
+        urlRequest.setValue("Basic " + encoded, forHTTPHeaderField: "Authorization")
+        return urlRequest
     }
 }
 
+client.sessionManager.adapter = UsernamePasswordAdapter(encoded: "QWxhZGRpbjpPcGVuU2VzYW1l")
+do {
+    try client.secret(Secret())
+    print("Successfully authorized for secret page")
+} catch {
+    print("Error: \(error)")
+}
+client.sessionManager.adapter = nil
+
 // Set SOAP headers
-transport.headers = [:]
-hwsClient.headers.append((QualifiedName(uri: "http://tempuri.org/", localName: "Token"), "QWxhZGRpbjpPcGVuU2VzYW1l"))
-try hwsClient.secret(Secret()) {
-    do {
-        _ = try $0.resolve()
-        print("Successfully authorized for secret page")
-    } catch {
-        print("Error was caught: \(error)")
-    }
+client.headers.append(Header(name: QualifiedName(uri: "http://tempuri.org/", localName: "Token"), value: "QWxhZGRpbjpPcGVuU2VzYW1l"))
+do {
+    _ = try client.secret(Secret())
+    print("Successfully authorized for secret page")
+} catch {
+    print("Error: \(error)")
 }
