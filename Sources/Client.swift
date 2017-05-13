@@ -21,7 +21,7 @@ class FaultType: XMLDeserializable {
 typealias Fault = FaultType
 
 class PartOfDayArrayType: XMLDeserializable {
-    let partOfDay: [PartOfDay?]
+    var partOfDay: [PartOfDay?]
     init(partOfDay: [PartOfDay?]) {
         self.partOfDay = partOfDay
     }
@@ -49,13 +49,14 @@ class PartOfDayArrayType: XMLDeserializable {
 typealias PartOfDayArray = PartOfDayArrayType
 
 class GreetResponseType: XMLDeserializable {
-    let greetResult: String?
+    var greetResult: String?
     init(greetResult: String? = nil) {
         self.greetResult = greetResult
     }
     required init(deserialize element: XMLElement) throws {
         do {
-            if let node = element.elements(forLocalName: "greetResult", uri: "spyne.examples.hello").first, node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
+            if let node = element.elements(forLocalName: "greetResult", uri: "spyne.examples.hello").first,
+                    node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
                 self.greetResult = try String(deserialize: node)
             } else {
                 self.greetResult = nil
@@ -73,13 +74,14 @@ class GreetResponseType: XMLDeserializable {
 typealias GreetResponse = GreetResponseType
 
 class SayMaybeNothingType: XMLDeserializable {
-    let name: String?
+    var name: String?
     init(name: String? = nil) {
         self.name = name
     }
     required init(deserialize element: XMLElement) throws {
         do {
-            if let node = element.elements(forLocalName: "name", uri: "spyne.examples.hello").first, node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
+            if let node = element.elements(forLocalName: "name", uri: "spyne.examples.hello").first,
+                    node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
                 self.name = try String(deserialize: node)
             } else {
                 self.name = nil
@@ -97,13 +99,14 @@ class SayMaybeNothingType: XMLDeserializable {
 typealias SayMaybeNothing = SayMaybeNothingType
 
 class SayMaybeNothingResponseType: XMLDeserializable {
-    let sayMaybeNothingResult: String?
+    var sayMaybeNothingResult: String?
     init(sayMaybeNothingResult: String? = nil) {
         self.sayMaybeNothingResult = sayMaybeNothingResult
     }
     required init(deserialize element: XMLElement) throws {
         do {
-            if let node = element.elements(forLocalName: "say_maybe_nothingResult", uri: "spyne.examples.hello").first, node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
+            if let node = element.elements(forLocalName: "say_maybe_nothingResult", uri: "spyne.examples.hello").first,
+                    node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
                 self.sayMaybeNothingResult = try String(deserialize: node)
             } else {
                 self.sayMaybeNothingResult = nil
@@ -143,7 +146,7 @@ class SayNothingResponseType: XMLDeserializable {
 typealias SayNothingResponse = SayNothingResponseType
 
 class SayHelloResponseType: XMLDeserializable {
-    let sayHelloResult: StringArrayType?
+    var sayHelloResult: StringArrayType?
     init(sayHelloResult: StringArrayType? = nil) {
         self.sayHelloResult = sayHelloResult
     }
@@ -172,13 +175,14 @@ class SayHelloResponseType: XMLDeserializable {
 typealias SayHelloResponse = SayHelloResponseType
 
 class GreetType: XMLDeserializable {
-    let partOfDay: PartOfDay?
+    var partOfDay: PartOfDay?
     init(partOfDay: PartOfDay? = nil) {
         self.partOfDay = partOfDay
     }
     required init(deserialize element: XMLElement) throws {
         do {
-            if let node = element.elements(forLocalName: "part_of_day", uri: "spyne.examples.hello").first, node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
+            if let node = element.elements(forLocalName: "part_of_day", uri: "spyne.examples.hello").first,
+                    node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
                 self.partOfDay = try PartOfDay(deserialize: node)
             } else {
                 self.partOfDay = nil
@@ -226,7 +230,7 @@ enum PartOfDay: String, XMLSerializable, XMLDeserializable, StringSerializable, 
 }
 
 class StringArrayType: XMLDeserializable {
-    let string: [String?]
+    var string: [String?]
     init(string: [String?]) {
         self.string = string
     }
@@ -254,13 +258,14 @@ class StringArrayType: XMLDeserializable {
 typealias StringArray = StringArrayType
 
 class SayMaybeSomethingResponseType: XMLDeserializable {
-    let sayMaybeSomethingResult: String?
+    var sayMaybeSomethingResult: String?
     init(sayMaybeSomethingResult: String? = nil) {
         self.sayMaybeSomethingResult = sayMaybeSomethingResult
     }
     required init(deserialize element: XMLElement) throws {
         do {
-            if let node = element.elements(forLocalName: "say_maybe_somethingResult", uri: "spyne.examples.hello").first, node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
+            if let node = element.elements(forLocalName: "say_maybe_somethingResult", uri: "spyne.examples.hello").first,
+                    node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
                 self.sayMaybeSomethingResult = try String(deserialize: node)
             } else {
                 self.sayMaybeSomethingResult = nil
@@ -278,13 +283,14 @@ class SayMaybeSomethingResponseType: XMLDeserializable {
 typealias SayMaybeSomethingResponse = SayMaybeSomethingResponseType
 
 class SayMaybeSomethingType: XMLDeserializable {
-    let name: String?
+    var name: String?
     init(name: String? = nil) {
         self.name = name
     }
     required init(deserialize element: XMLElement) throws {
         do {
-            if let node = element.elements(forLocalName: "name", uri: "spyne.examples.hello").first, node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
+            if let node = element.elements(forLocalName: "name", uri: "spyne.examples.hello").first,
+                    node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
                 self.name = try String(deserialize: node)
             } else {
                 self.name = nil
@@ -302,7 +308,7 @@ class SayMaybeSomethingType: XMLDeserializable {
 typealias SayMaybeSomething = SayMaybeSomethingType
 
 class GreetsResponseType: XMLDeserializable {
-    let greetsResult: StringArrayType?
+    var greetsResult: StringArrayType?
     init(greetsResult: StringArrayType? = nil) {
         self.greetsResult = greetsResult
     }
@@ -331,22 +337,24 @@ class GreetsResponseType: XMLDeserializable {
 typealias GreetsResponse = GreetsResponseType
 
 class SayHelloType: XMLDeserializable {
-    let name: String?
-    let times: Int?
+    var name: String?
+    var times: Int?
     init(name: String? = nil, times: Int? = nil) {
         self.name = name
         self.times = times
     }
     required init(deserialize element: XMLElement) throws {
         do {
-            if let node = element.elements(forLocalName: "name", uri: "spyne.examples.hello").first, node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
+            if let node = element.elements(forLocalName: "name", uri: "spyne.examples.hello").first,
+                    node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
                 self.name = try String(deserialize: node)
             } else {
                 self.name = nil
             }
         }
         do {
-            if let node = element.elements(forLocalName: "times", uri: "spyne.examples.hello").first, node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
+            if let node = element.elements(forLocalName: "times", uri: "spyne.examples.hello").first,
+                    node.attribute(forLocalName: "nil", uri: NS_XSI)?.stringValue != "true" {
                 self.times = try Int(deserialize: node)
             } else {
                 self.times = nil
@@ -368,7 +376,7 @@ class SayHelloType: XMLDeserializable {
 typealias SayHello = SayHelloType
 
 class GreetsType: XMLDeserializable {
-    let partOfDays: PartOfDayArrayType?
+    var partOfDays: PartOfDayArrayType?
     init(partOfDays: PartOfDayArrayType? = nil) {
         self.partOfDays = partOfDays
     }
@@ -419,265 +427,346 @@ class SecretType: XMLDeserializable {
 //
 // MARK: - SOAP Client
 //
-class HelloWorldServiceClient: Client {
+class HelloWorldServiceClient: Lark.Client {
     static let defaultEndpoint = URL(string: "http://localhost:8000/")!
     override init(endpoint: URL = HelloWorldServiceClient.defaultEndpoint, sessionManager: SessionManager = SessionManager()) {
         super.init(endpoint: endpoint, sessionManager: sessionManager)
     }
-    @discardableResult func sayHello(_ parameter: SayHello) throws -> SayHelloResponse {
+    /// Call sayHello synchronously
+    func sayHello(name: String? = nil, times: Int? = nil) throws -> StringArrayType? {
         let response = try call(
             action: URL(string: "say_hello")!,
             serialize: { envelope in
+                let parameter = SayHelloType(name: name, times: times)
                 let node = XMLElement(prefix: "ns0", localName: "say_hello", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope -> SayHelloResponse in
-                let node = envelope.body.elements(forLocalName: "say_helloResponse", uri: "spyne.examples.hello").first!
-                return try SayHelloResponse(deserialize: node)
+            deserialize: { envelope -> StringArrayType? in
+                guard let node = envelope.body.elements(forLocalName: "say_helloResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "say_helloResponse"))
+                }
+                let result = try SayHelloResponseType(deserialize: node)
+                return result.sayHelloResult
             })
         return try response.result.resolve()
     }
-    @discardableResult func sayHelloAsync(_ parameter: SayHello, completionHandler: @escaping (Result<SayHelloResponse>) -> Void) -> DataRequest {
-        return callAsync(
+    /// Call sayHello asynchronously
+    @discardableResult func sayHello(name: String? = nil, times: Int? = nil, completionHandler: @escaping (Result<StringArrayType?>) -> Void) -> DataRequest {
+        return call(
             action: URL(string: "say_hello")!,
             serialize: { envelope in
+                let parameter = SayHelloType(name: name, times: times)
                 let node = XMLElement(prefix: "ns0", localName: "say_hello", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope in
-                let node = envelope.body.elements(forLocalName: "say_helloResponse", uri: "spyne.examples.hello").first!
-                return try SayHelloResponse(deserialize: node)
+            deserialize: { envelope -> StringArrayType? in
+                guard let node = envelope.body.elements(forLocalName: "say_helloResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "say_helloResponse"))
+                }
+                let result = try SayHelloResponseType(deserialize: node)
+                return result.sayHelloResult
             },
             completionHandler: completionHandler)
     }
-    @discardableResult func sayMaybeNothing(_ parameter: SayMaybeNothing) throws -> SayMaybeNothingResponse {
+    /// Call sayMaybeNothing synchronously
+    func sayMaybeNothing(name: String? = nil) throws -> String? {
         let response = try call(
             action: URL(string: "say_maybe_nothing")!,
             serialize: { envelope in
+                let parameter = SayMaybeNothingType(name: name)
                 let node = XMLElement(prefix: "ns0", localName: "say_maybe_nothing", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope -> SayMaybeNothingResponse in
-                let node = envelope.body.elements(forLocalName: "say_maybe_nothingResponse", uri: "spyne.examples.hello").first!
-                return try SayMaybeNothingResponse(deserialize: node)
+            deserialize: { envelope -> String? in
+                guard let node = envelope.body.elements(forLocalName: "say_maybe_nothingResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "say_maybe_nothingResponse"))
+                }
+                let result = try SayMaybeNothingResponseType(deserialize: node)
+                return result.sayMaybeNothingResult
             })
         return try response.result.resolve()
     }
-    @discardableResult func sayMaybeNothingAsync(_ parameter: SayMaybeNothing, completionHandler: @escaping (Result<SayMaybeNothingResponse>) -> Void) -> DataRequest {
-        return callAsync(
+    /// Call sayMaybeNothing asynchronously
+    @discardableResult func sayMaybeNothing(name: String? = nil, completionHandler: @escaping (Result<String?>) -> Void) -> DataRequest {
+        return call(
             action: URL(string: "say_maybe_nothing")!,
             serialize: { envelope in
+                let parameter = SayMaybeNothingType(name: name)
                 let node = XMLElement(prefix: "ns0", localName: "say_maybe_nothing", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope in
-                let node = envelope.body.elements(forLocalName: "say_maybe_nothingResponse", uri: "spyne.examples.hello").first!
-                return try SayMaybeNothingResponse(deserialize: node)
+            deserialize: { envelope -> String? in
+                guard let node = envelope.body.elements(forLocalName: "say_maybe_nothingResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "say_maybe_nothingResponse"))
+                }
+                let result = try SayMaybeNothingResponseType(deserialize: node)
+                return result.sayMaybeNothingResult
             },
             completionHandler: completionHandler)
     }
-    @discardableResult func fault(_ parameter: Fault) throws -> FaultResponse {
+    /// Call fault synchronously
+    func fault() throws -> FaultResponseType {
         let response = try call(
             action: URL(string: "fault")!,
             serialize: { envelope in
+                let parameter = FaultType()
                 let node = XMLElement(prefix: "ns0", localName: "fault", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope -> FaultResponse in
-                let node = envelope.body.elements(forLocalName: "faultResponse", uri: "spyne.examples.hello").first!
-                return try FaultResponse(deserialize: node)
+            deserialize: { envelope -> FaultResponseType in
+                guard let node = envelope.body.elements(forLocalName: "faultResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "faultResponse"))
+                }
+                let result = try FaultResponseType(deserialize: node)
+                return result
             })
         return try response.result.resolve()
     }
-    @discardableResult func faultAsync(_ parameter: Fault, completionHandler: @escaping (Result<FaultResponse>) -> Void) -> DataRequest {
-        return callAsync(
+    /// Call fault asynchronously
+    @discardableResult func fault(completionHandler: @escaping (Result<FaultResponseType>) -> Void) -> DataRequest {
+        return call(
             action: URL(string: "fault")!,
             serialize: { envelope in
+                let parameter = FaultType()
                 let node = XMLElement(prefix: "ns0", localName: "fault", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope in
-                let node = envelope.body.elements(forLocalName: "faultResponse", uri: "spyne.examples.hello").first!
-                return try FaultResponse(deserialize: node)
+            deserialize: { envelope -> FaultResponseType in
+                guard let node = envelope.body.elements(forLocalName: "faultResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "faultResponse"))
+                }
+                let result = try FaultResponseType(deserialize: node)
+                return result
             },
             completionHandler: completionHandler)
     }
-    @discardableResult func sayMaybeSomething(_ parameter: SayMaybeSomething) throws -> SayMaybeSomethingResponse {
+    /// Call sayMaybeSomething synchronously
+    func sayMaybeSomething(name: String? = nil) throws -> String? {
         let response = try call(
             action: URL(string: "say_maybe_something")!,
             serialize: { envelope in
+                let parameter = SayMaybeSomethingType(name: name)
                 let node = XMLElement(prefix: "ns0", localName: "say_maybe_something", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope -> SayMaybeSomethingResponse in
-                let node = envelope.body.elements(forLocalName: "say_maybe_somethingResponse", uri: "spyne.examples.hello").first!
-                return try SayMaybeSomethingResponse(deserialize: node)
+            deserialize: { envelope -> String? in
+                guard let node = envelope.body.elements(forLocalName: "say_maybe_somethingResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "say_maybe_somethingResponse"))
+                }
+                let result = try SayMaybeSomethingResponseType(deserialize: node)
+                return result.sayMaybeSomethingResult
             })
         return try response.result.resolve()
     }
-    @discardableResult func sayMaybeSomethingAsync(_ parameter: SayMaybeSomething, completionHandler: @escaping (Result<SayMaybeSomethingResponse>) -> Void) -> DataRequest {
-        return callAsync(
+    /// Call sayMaybeSomething asynchronously
+    @discardableResult func sayMaybeSomething(name: String? = nil, completionHandler: @escaping (Result<String?>) -> Void) -> DataRequest {
+        return call(
             action: URL(string: "say_maybe_something")!,
             serialize: { envelope in
+                let parameter = SayMaybeSomethingType(name: name)
                 let node = XMLElement(prefix: "ns0", localName: "say_maybe_something", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope in
-                let node = envelope.body.elements(forLocalName: "say_maybe_somethingResponse", uri: "spyne.examples.hello").first!
-                return try SayMaybeSomethingResponse(deserialize: node)
+            deserialize: { envelope -> String? in
+                guard let node = envelope.body.elements(forLocalName: "say_maybe_somethingResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "say_maybe_somethingResponse"))
+                }
+                let result = try SayMaybeSomethingResponseType(deserialize: node)
+                return result.sayMaybeSomethingResult
             },
             completionHandler: completionHandler)
     }
-    @discardableResult func greet(_ parameter: Greet) throws -> GreetResponse {
+    /// Call greet synchronously
+    func greet(partOfDay: PartOfDay? = nil) throws -> String? {
         let response = try call(
             action: URL(string: "greet")!,
             serialize: { envelope in
+                let parameter = GreetType(partOfDay: partOfDay)
                 let node = XMLElement(prefix: "ns0", localName: "greet", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope -> GreetResponse in
-                let node = envelope.body.elements(forLocalName: "greetResponse", uri: "spyne.examples.hello").first!
-                return try GreetResponse(deserialize: node)
+            deserialize: { envelope -> String? in
+                guard let node = envelope.body.elements(forLocalName: "greetResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "greetResponse"))
+                }
+                let result = try GreetResponseType(deserialize: node)
+                return result.greetResult
             })
         return try response.result.resolve()
     }
-    @discardableResult func greetAsync(_ parameter: Greet, completionHandler: @escaping (Result<GreetResponse>) -> Void) -> DataRequest {
-        return callAsync(
+    /// Call greet asynchronously
+    @discardableResult func greet(partOfDay: PartOfDay? = nil, completionHandler: @escaping (Result<String?>) -> Void) -> DataRequest {
+        return call(
             action: URL(string: "greet")!,
             serialize: { envelope in
+                let parameter = GreetType(partOfDay: partOfDay)
                 let node = XMLElement(prefix: "ns0", localName: "greet", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope in
-                let node = envelope.body.elements(forLocalName: "greetResponse", uri: "spyne.examples.hello").first!
-                return try GreetResponse(deserialize: node)
+            deserialize: { envelope -> String? in
+                guard let node = envelope.body.elements(forLocalName: "greetResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "greetResponse"))
+                }
+                let result = try GreetResponseType(deserialize: node)
+                return result.greetResult
             },
             completionHandler: completionHandler)
     }
-    @discardableResult func sayNothing(_ parameter: SayNothing) throws -> SayNothingResponse {
+    /// Call sayNothing synchronously
+    func sayNothing() throws -> SayNothingResponseType {
         let response = try call(
             action: URL(string: "say_nothing")!,
             serialize: { envelope in
+                let parameter = SayNothingType()
                 let node = XMLElement(prefix: "ns0", localName: "say_nothing", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope -> SayNothingResponse in
-                let node = envelope.body.elements(forLocalName: "say_nothingResponse", uri: "spyne.examples.hello").first!
-                return try SayNothingResponse(deserialize: node)
+            deserialize: { envelope -> SayNothingResponseType in
+                guard let node = envelope.body.elements(forLocalName: "say_nothingResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "say_nothingResponse"))
+                }
+                let result = try SayNothingResponseType(deserialize: node)
+                return result
             })
         return try response.result.resolve()
     }
-    @discardableResult func sayNothingAsync(_ parameter: SayNothing, completionHandler: @escaping (Result<SayNothingResponse>) -> Void) -> DataRequest {
-        return callAsync(
+    /// Call sayNothing asynchronously
+    @discardableResult func sayNothing(completionHandler: @escaping (Result<SayNothingResponseType>) -> Void) -> DataRequest {
+        return call(
             action: URL(string: "say_nothing")!,
             serialize: { envelope in
+                let parameter = SayNothingType()
                 let node = XMLElement(prefix: "ns0", localName: "say_nothing", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope in
-                let node = envelope.body.elements(forLocalName: "say_nothingResponse", uri: "spyne.examples.hello").first!
-                return try SayNothingResponse(deserialize: node)
+            deserialize: { envelope -> SayNothingResponseType in
+                guard let node = envelope.body.elements(forLocalName: "say_nothingResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "say_nothingResponse"))
+                }
+                let result = try SayNothingResponseType(deserialize: node)
+                return result
             },
             completionHandler: completionHandler)
     }
-    @discardableResult func secret(_ parameter: Secret) throws -> SecretResponse {
+    /// Call secret synchronously
+    func secret() throws -> SecretResponseType {
         let response = try call(
             action: URL(string: "secret")!,
             serialize: { envelope in
+                let parameter = SecretType()
                 let node = XMLElement(prefix: "ns0", localName: "secret", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope -> SecretResponse in
-                let node = envelope.body.elements(forLocalName: "secretResponse", uri: "spyne.examples.hello").first!
-                return try SecretResponse(deserialize: node)
+            deserialize: { envelope -> SecretResponseType in
+                guard let node = envelope.body.elements(forLocalName: "secretResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "secretResponse"))
+                }
+                let result = try SecretResponseType(deserialize: node)
+                return result
             })
         return try response.result.resolve()
     }
-    @discardableResult func secretAsync(_ parameter: Secret, completionHandler: @escaping (Result<SecretResponse>) -> Void) -> DataRequest {
-        return callAsync(
+    /// Call secret asynchronously
+    @discardableResult func secret(completionHandler: @escaping (Result<SecretResponseType>) -> Void) -> DataRequest {
+        return call(
             action: URL(string: "secret")!,
             serialize: { envelope in
+                let parameter = SecretType()
                 let node = XMLElement(prefix: "ns0", localName: "secret", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope in
-                let node = envelope.body.elements(forLocalName: "secretResponse", uri: "spyne.examples.hello").first!
-                return try SecretResponse(deserialize: node)
+            deserialize: { envelope -> SecretResponseType in
+                guard let node = envelope.body.elements(forLocalName: "secretResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "secretResponse"))
+                }
+                let result = try SecretResponseType(deserialize: node)
+                return result
             },
             completionHandler: completionHandler)
     }
-    @discardableResult func greets(_ parameter: Greets) throws -> GreetsResponse {
+    /// Call greets synchronously
+    func greets(partOfDays: PartOfDayArrayType? = nil) throws -> StringArrayType? {
         let response = try call(
             action: URL(string: "greets")!,
             serialize: { envelope in
+                let parameter = GreetsType(partOfDays: partOfDays)
                 let node = XMLElement(prefix: "ns0", localName: "greets", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope -> GreetsResponse in
-                let node = envelope.body.elements(forLocalName: "greetsResponse", uri: "spyne.examples.hello").first!
-                return try GreetsResponse(deserialize: node)
+            deserialize: { envelope -> StringArrayType? in
+                guard let node = envelope.body.elements(forLocalName: "greetsResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "greetsResponse"))
+                }
+                let result = try GreetsResponseType(deserialize: node)
+                return result.greetsResult
             })
         return try response.result.resolve()
     }
-    @discardableResult func greetsAsync(_ parameter: Greets, completionHandler: @escaping (Result<GreetsResponse>) -> Void) -> DataRequest {
-        return callAsync(
+    /// Call greets asynchronously
+    @discardableResult func greets(partOfDays: PartOfDayArrayType? = nil, completionHandler: @escaping (Result<StringArrayType?>) -> Void) -> DataRequest {
+        return call(
             action: URL(string: "greets")!,
             serialize: { envelope in
+                let parameter = GreetsType(partOfDays: partOfDays)
                 let node = XMLElement(prefix: "ns0", localName: "greets", uri: "spyne.examples.hello")
                 node.addNamespace(XMLNode.namespace(withName: "ns0", stringValue: "spyne.examples.hello") as! XMLNode)
                 try parameter.serialize(node)
                 envelope.body.addChild(node)
                 return envelope
             },
-            deserialize: { envelope in
-                let node = envelope.body.elements(forLocalName: "greetsResponse", uri: "spyne.examples.hello").first!
-                return try GreetsResponse(deserialize: node)
+            deserialize: { envelope -> StringArrayType? in
+                guard let node = envelope.body.elements(forLocalName: "greetsResponse", uri: "spyne.examples.hello").first else {
+                    throw XMLDeserializationError.noElementWithName(QualifiedName(uri: "spyne.examples.hello", localName: "greetsResponse"))
+                }
+                let result = try GreetsResponseType(deserialize: node)
+                return result.greetsResult
             },
             completionHandler: completionHandler)
     }
 }
+
